@@ -1,24 +1,27 @@
-import logo from './logo.svg';
+import { useSelector } from 'react-redux';
+import { Route } from 'react-router';
 import './App.css';
+import { Login } from './Components/Login';
+import { Main } from './Components/Main';
+import { Navbar } from './Components/Navbar';
+import { Profile } from './Components/Profile';
 
 function App() {
+  const { isAuth, name } = useSelector(state => state.AuthReducer)
+  console.log(isAuth, name)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar isAuth={isAuth} />
+      <Route exact path='/'>
+        <Main />
+      </Route>
+      <Route path='/profile'>
+        <Profile name={name} isAuth={isAuth} />
+      </Route>
+      <Route path='/login'>
+        <Login isAuth={isAuth} />
+      </Route>
+    </>
   );
 }
 
